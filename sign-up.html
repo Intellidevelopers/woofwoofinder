@@ -45,7 +45,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500;600;800;900&amp;display=swap" rel="stylesheet">
 
 </head>   
-<body>
+<body onload="generateRandomId()">
 <div class="page-wrapper">
 	<!-- Preloader -->
 	<div id="preloader">
@@ -72,19 +72,23 @@
 					<p>Welcome back! Please enter your details</p>
 				</div>
 				<div class="account-section">
-					<form>
+					<form id="signUp-form">
 						<div class="mb-3">
 							<label class="form-label" for="name">Name*</label>
-							<input type="text" id="name" class="form-control">
+							<input type="text" id="full_name" class="form-control">
 						</div>
 						<div class="mb-3">
 							<label class="form-label" for="email">Email Address*</label>
-							<input type="email" id="email" class="form-control">
+							<input type="email" id="email_login" class="form-control">
+						</div>
+						<div class="mb-3">
+							<label class="form-userid" for="userId">User Id</label>
+							<input type="text" id="userId" class="form-control" readonly>
 						</div>
 						<div class="mb-3">
 							<label class="form-label" for="password">Password*</label>
 							<div class="input-group input-group-icon mb-2">
-								<input type="password" id="password" class="form-control dz-password">
+								<input type="password" id="password_login" class="form-control dz-password">
 								<span class="input-group-text show-pass"> 
 									<i class="icon feather icon-eye-off eye-close"></i>
 									<i class="icon feather icon-eye eye-open"></i>
@@ -95,7 +99,9 @@
 								<label class="form-check-label" for="Checked-1">I agree to all Term, Privacy and Fees</label>
 							</div>
 						</div>
-						<a href="sign-in.html" class="btn btn-thin btn-lg w-100 btn-primary">Sign up</a>
+						<a href="javascript:void(0)">
+							<button  class="btn btn-thin btn-lg w-100 btn-primary" type="submit" id="Register">Signup</button>
+						</a>
 						<div class="dz-saprate py-4">
 							<span>Or Sign Up With</span>
 						</div>
@@ -103,7 +109,7 @@
 							<a href="javascript:void(0);" class="dz-icon icon-lg bg-light rounded-xl"><img src="assets/images/svg/google.svg" alt=""></a>
 							<a href="javascript:void(0);" class="dz-icon icon-lg bg-light rounded-xl"><img src="assets/images/svg/apple.svg" alt=""></a>
 						</div>
-						<div class="btn-link link-fixed">Already have and account? <a href="sign-up.html" class="text-underline font-w600">Sign In</span></a>
+						<div class="btn-link link-fixed">Already have and account? <a href="sign-in.html" class="text-underline font-w600">Sign In</span></a>
 					</form>  
 				</div>
 			</div>
@@ -122,6 +128,121 @@
 <script src="assets/js/dz.carousel.js"></script><!-- Swiper -->
 <script src="assets/js/settings.js"></script>
 <script src="assets/js/custom.js"></script>
+
+<!-- Sweetalert CDN for Popup -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+      
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js"; 
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDan5M_iX2KnmyqOJXsQarBJxsF-v6Lbus",
+    authDomain: "woofwoofinder-4f163.firebaseapp.com",
+    projectId: "woofwoofinder-4f163",
+    storageBucket: "woofwoofinder-4f163.appspot.com",
+    messagingSenderId: "1074312793564",
+    appId: "1:1074312793564:web:ea3e657fcdf7279f5e1319"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app)
+
+
+   document.getElementById('signUp-form')
+   .addEventListener('submit', (e) => {
+	  e.preventDefault();
+
+	  let fullName = document.getElementById('full_name').value
+	  let emailLogin = document.getElementById('email_login').value
+	  let passwordLogin = document.getElementById('password_login').value   
+	  
+
+	  // Form Authentication
+	  if(fullName.trim() === '' || emailLogin.trim() === '' || passwordLogin.trim() === ''){
+		 swal({
+		  text: 'All Inputs Field are required',
+		  icon: 'warning'
+		 })
+	  }
+	   else if(passwordLogin.length < 6)
+	  {
+		// Popout this if the password length is less than six
+		swal({
+		  text: 'Password must be atleast 6',
+		  icon: 'warning'
+		})
+	  } 
+	  else 
+	  {
+		createUserWithEmailAndPassword(auth, emailLogin, passwordLogin)
+	  .then((userCredential) => {
+
+		if(userCredential){
+		  swal({
+			title: 'Good Job',
+			text: 'Account created successfully',
+			icon: 'success'
+		  })
+		   .then(value => {
+			if(value){
+			   window.location.replace('sign-in.html')
+			}
+		   })
+
+		   
+		  // Set the Display Name for the user if the User Credentials
+		  // Is true
+			const user = userCredential.user
+
+			if(user){
+			  updateProfile(user, {
+				displayName: `${fullName}`
+			  })
+		}
+		}
+		
+		
+	  }).catch((err) => {
+			  if (err.code === 'auth/email-already-in-use') {
+			  swal({
+				title: 'Error',
+				text: 'The email address is already in use',
+				icon: 'error'
+			  });
+			} else if (err.code === 'auth/invalid-email') {
+			  swal({
+				title: 'Error',
+				text: 'Invalid email address',
+				icon: 'error'
+			  });
+			} else {
+			  swal({
+				title: 'Error',
+				text: `${err.message}`,
+				icon: 'error'
+			  });
+			}
+	  })
+	  }
+	 
+   })
+</script>
+<script>
+	function generateRandomId() {
+		// Generate a random ID (you can customize the logic based on your requirements)
+		const randomId = Math.random().toString(6).substring(2, 40);
+
+		// Set the generated ID as the input field's value
+		document.getElementById('userId').value = randomId;
+	}
+</script>
 </body>
 
 <!-- Mirrored from petperks.dexignzone.com/xhtml/sign-up.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 Dec 2023 12:30:48 GMT -->
