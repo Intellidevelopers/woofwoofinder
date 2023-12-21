@@ -70,7 +70,7 @@
 					<form id="loginForm">
 						<div class="mb-3">
 							<label class="form-label" for="email">Email Address*</label>
-							<input type="email" id="email" class="form-control">
+							<input type="email" id="email" class="form-control" autocomplete="email">
 						</div>
 						<div class="mb-3">
 							<label class="form-label" for="password">Password*</label>
@@ -88,8 +88,12 @@
 							<span>Or Sign In With</span>
 						</div>
 						<div class="social-btn-group">
-							<a href="javascript:void(0);" class="dz-icon icon-lg bg-light rounded-xl"><img src="assets/images/svg/google.svg" alt=""></a>
-							<a href="javascript:void(0);" class="dz-icon icon-lg bg-light rounded-xl"><img src="assets/images/svg/apple.svg" alt=""></a>
+							<a href="javascript:void(0);" title="Signin with google" class="dz-icon icon-lg bg-light rounded-xl" id="googlelog">
+								<img src="assets/images/svg/google.svg" alt="">
+							</a>
+							<a href="javascript:void(0)" title="Signin with microsoft" class="dz-icon icon-lg bg-light rounded-xl">
+								<img style="width: 60%;" src="micros.png" alt="">
+							</a>
 						</div>
 						<div class="btn-link link-fixed">Not a member? <a href="sign-up.html" class="text-underline font-w600">Create an account</span></a>
 					</form>  
