@@ -91,7 +91,7 @@
 						<div class="media-40 me-2 user-image">
 							<img src="assets/images/avatar/small/1.png" alt="profile-image">
 						</div>
-						<h3 class="name mb-0"  id="welcomeMessage"><span class="greetings">Hello,</span></h3>
+						<h3 class="name mb-0"  id="welcomeMessage"><span class="greetings">Hello, Josiah</span></h3>
 					</div>
 				</div>
 				<div class="content-box">
@@ -300,46 +300,6 @@
 
 <!-- Add this before closing the body tag -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-<!-- Add this before closing the body tag -->
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script type="module">
-  
-	// Import the functions you need from the SDKs you need
-	import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-	import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
-  
-	// Your web app's Firebase configuration
-	// Make sure it matches the configuration in your signup page
-	const firebaseConfig = {
-		 apiKey: "AIzaSyC1kDtYIauw1KYF2OYK6zJBj_DtDxjuOWo",
-		 authDomain: "login-signup-authenticat-4fa75.firebaseapp.com",
-		 databaseURL: "https://login-signup-authenticat-4fa75-default-rtdb.firebaseio.com",
-		 projectId: "login-signup-authenticat-4fa75",
-		 storageBucket: "login-signup-authenticat-4fa75.appspot.com",
-		 messagingSenderId: "77434343036",
-		 appId: "1:77434343036:web:de2288d9664bae1c7483f9"
-	   };
-  
-	// Initialize Firebase
-	const app = initializeApp(firebaseConfig);
-	const auth = getAuth(app);
-  
-	document.addEventListener('DOMContentLoaded', () => {
-	  // Check if the user is logged in
-	  onAuthStateChanged(auth, (user) => {
-		if (user) {
-		  // User is logged in, display the full name on the homepage
-		  const fullName = user.displayName;
-		  document.getElementById('welcomeMessage').innerText = `${fullName}!`;
-		  const email = user.email;
-		  document.getElementById('welcomeEmail').innerHTML = `${email}`;
-		  // Display user ID on the dashboard
-		  document.getElementById('uniqueUserId').innerText = user.uid;
-		}
-	  });
-	});
-  </script>
 </body>
 
 <!-- Mirrored from petperks.dexignzone.com/xhtml/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 Dec 2023 12:28:20 GMT -->
