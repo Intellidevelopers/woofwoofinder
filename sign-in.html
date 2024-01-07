@@ -117,6 +117,90 @@
 
 
 </body>
+<!-- Sweetalert CDN for Popup -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!-- <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script> -->
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+	 https://firebase.google.com/docs/web/setup#available-libraries -->
+<!-- <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script> -->
+
+<!-- Our script must be loaded after firebase references -->
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js"; 
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+	apiKey: "AIzaSyBfaKgDgfXKqn8QUWYZfBTOJ87bnc0o0TQ",
+	authDomain: "fuzzy-2414a.firebaseapp.com",
+	projectId: "fuzzy-2414a",
+	storageBucket: "fuzzy-2414a.appspot.com",
+	messagingSenderId: "93043591842",
+	appId: "1:93043591842:web:655dc3a677a1880e35a5fb",
+	measurementId: "G-39MSVLK2KJ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app)
+
+
+   document.getElementById('login_btn')
+	.addEventListener('click',(e) => {
+	   e.preventDefault();
+
+	   login()
+	})
+
+
+   const login = () => {
+
+	 let email = document.getElementById('email').value
+	 let password = document.getElementById('password').value
+
+	//  Validate Form Inputs
+	  if(email.trim() === '' || password.trim() === ''){
+		swal('Enter Credentials', 'All Inputs Field are required', 'info')
+	  } else {
+		signInWithEmailAndPassword(auth, email, password)
+		.then(UserCredential => {
+		  if(UserCredential){
+			 window.location.replace('landing.html')
+		  }
+		})
+		.catch((err) => {
+		  if (err.code === 'auth/invalid-login-credentials' || err.code === 'auth/user-not-found') {
+	  // Handle invalid login credentials
+			swal({
+			  title: 'Error',
+			  text: 'Invalid email or password',
+			  icon: 'error'
+			});
+		} else if (err.code === 'auth/invalid-email') {
+			swal({
+			  title: 'Error',
+			  text: 'Invalid email address',
+			  icon: 'error'
+			});
+		  } else {
+			// Handle other errors
+			swal({
+			  title: 'Error',
+			  text: `${err.message}`,
+			  icon: 'error'
+			});
+		  }
+		})
+	  }
+   }
+</script>
 <!-- Mirrored from petperks.dexignzone.com/xhtml/sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 Dec 2023 12:30:47 GMT -->
 </html>
